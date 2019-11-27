@@ -1,4 +1,4 @@
-package com.geekhub.mariia_piastro.hw5.weather
+package com.geekhub.mariia_piastro.hw5.weather.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.geekhub.mariia_piastro.hw5.weather.R
 import com.geekhub.mariia_piastro.hw5.weather.entities.Weather
 import com.geekhub.mariia_piastro.hw5.weather.recyclerView.WeatherAdapter
 import kotlinx.android.synthetic.main.fragment_list.view.*
@@ -15,7 +16,8 @@ class ListFragment: Fragment() {
     private var weather: ArrayList<Weather> = ArrayList()
 
     companion object {
-        fun newInstance(): ListFragment = ListFragment()
+        fun newInstance(): ListFragment =
+            ListFragment()
     }
 
     override fun onCreateView(

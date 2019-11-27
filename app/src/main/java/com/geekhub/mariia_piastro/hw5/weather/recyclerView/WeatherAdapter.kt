@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.geekhub.mariia_piastro.hw5.weather.R
 import com.geekhub.mariia_piastro.hw5.weather.entities.Weather
+import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
 
-class WeatherAdapter(private var weather: ArrayList<Weather>) :
+class WeatherAdapter(private var weatherResponse: ArrayList<WeatherResponse>) :
     RecyclerView.Adapter<WeatherViewHolder>() {
 
     interface Callback {
@@ -19,11 +20,11 @@ class WeatherAdapter(private var weather: ArrayList<Weather>) :
     }
 
     override fun getItemCount(): Int {
-        return weather.size
+        return weatherResponse.size
     }
 
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) {
-        holder.bind(weather[position])
+        holder.bind(weatherResponse[position])
     }
 
 }
