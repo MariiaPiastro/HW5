@@ -1,14 +1,16 @@
 package com.geekhub.mariia_piastro.hw5.weather.network
 
 import com.geekhub.mariia_piastro.hw5.weather.BuildConfig
+import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 object Apifactory {
 
-    private val authInterceptor = Interceptor {chain->
+    private val authInterceptor = Interceptor { chain ->
         val newUrl = chain.request().url
             .newBuilder()
             .addQueryParameter("appid", BuildConfig.API_KEY)
@@ -32,6 +34,10 @@ object Apifactory {
         .addConverterFactory(MoshiConverterFactory.create())
         .build()
 
-    val weatherApi : WeatherApi = retrofit.create(WeatherApi::class.java)
+    val weatherApi: WeatherApi = retrofit.create(WeatherApi::class.java)
+
+    fun getCurrentWeather(location: String, units: String): Call<List<WeatherResponse>> {
+       return weatherApi.getCurrentWeather(location, units)
+    }
 
 }

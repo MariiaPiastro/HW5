@@ -25,7 +25,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField 'String', 'BASE_URL', '"https://openweathermap.org/data/2.5/"'
-        buildConfigField 'String', 'API_KEY', '"f58a51f36822cf70d84de104a14fa18e"'
+        buildConfigField 'String', 'API_KEY', '"4150bdb7253923d9e667e6537f86b508"'
     }
     buildTypes {
         release {

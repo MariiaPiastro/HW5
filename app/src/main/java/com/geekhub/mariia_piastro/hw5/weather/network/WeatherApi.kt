@@ -10,5 +10,6 @@ interface WeatherApi {
     fun getCurrentWeather(
         @Query("q") location: String,
         @Query("units") units: String
-    ): Call<WeatherResponse>
+    ): Call<List<WeatherResponse>>
+
 }
