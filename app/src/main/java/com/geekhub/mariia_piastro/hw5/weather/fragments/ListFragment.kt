@@ -18,7 +18,7 @@ import retrofit2.Response
 
 class ListFragment : Fragment() {
 
-    var weatherResponses: ArrayList<WeatherResponse> = ArrayList()
+    var weatherResponses: List<WeatherResponse> = listOf()
 
     private val location = "Cherkasy"
     private val units = "metric"
@@ -48,8 +48,7 @@ class ListFragment : Fragment() {
                     call: Call<List<WeatherResponse>>,
                     response: Response<List<WeatherResponse>>
                 ) {
-                    Log.d("response", response.code().toString())
-                   // weatherResponses.addAll(response.body())
+                    weatherResponses.addAll(response.body())
                     recyclerView.adapter = WeatherAdapter(weatherResponses)
                 }
             })

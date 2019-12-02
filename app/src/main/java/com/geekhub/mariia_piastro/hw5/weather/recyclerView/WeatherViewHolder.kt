@@ -18,5 +18,7 @@ class WeatherViewHolder(private val view: View) : RecyclerView.ViewHolder(view),
     }
 
     fun bind(weatherResponse: WeatherResponse) {
+        view.textViewDescription.text = weatherResponse.weather[0].descriptor
+        view.textViewTemperature.text = weatherResponse.main.temp.toString()
     }
 }

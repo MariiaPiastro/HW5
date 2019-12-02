@@ -7,7 +7,7 @@ import com.geekhub.mariia_piastro.hw5.weather.R
 import com.geekhub.mariia_piastro.hw5.weather.entities.Weather
 import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
 
-class WeatherAdapter(private var weatherResponse: ArrayList<WeatherResponse>) :
+class WeatherAdapter(private var weatherResponses: List<WeatherResponse>) :
     RecyclerView.Adapter<WeatherViewHolder>() {
 
     interface Callback {
@@ -20,11 +20,11 @@ class WeatherAdapter(private var weatherResponse: ArrayList<WeatherResponse>) :
     }
 
     override fun getItemCount(): Int {
-        return weatherResponse.size
+        return weatherResponses.size
     }
 
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) {
-        holder.bind(weatherResponse[position])
+        holder.bind(weatherResponses[position])
     }
 
 }
