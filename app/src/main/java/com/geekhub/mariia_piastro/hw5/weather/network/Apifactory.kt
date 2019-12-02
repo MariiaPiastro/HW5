@@ -1,6 +1,5 @@
 package com.geekhub.mariia_piastro.hw5.weather.network
 
-import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.geekhub.mariia_piastro.hw5.weather.BuildConfig
 import com.geekhub.mariia_piastro.hw5.weather.MainApplication

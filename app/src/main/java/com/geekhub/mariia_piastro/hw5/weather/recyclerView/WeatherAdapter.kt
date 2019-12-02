@@ -7,12 +7,12 @@ import com.geekhub.mariia_piastro.hw5.weather.R
 import com.geekhub.mariia_piastro.hw5.weather.entities.Weather
 import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
 
-class WeatherAdapter(private var weatherResponses: List<WeatherResponse>) :
+class WeatherAdapter(private var weatherResponses: ArrayList<WeatherResponse>) :
     RecyclerView.Adapter<WeatherViewHolder>() {
-
-    interface Callback {
-        fun onItemClick(weather: Weather)
-    }
+//
+//    interface Callback {
+//        fun onItemClick(weather: Weather)
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)

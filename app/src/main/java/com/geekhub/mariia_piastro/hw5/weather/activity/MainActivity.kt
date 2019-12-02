@@ -1,7 +1,11 @@
-package com.geekhub.mariia_piastro.hw5.weather
+package com.geekhub.mariia_piastro.hw5.weather.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import com.geekhub.mariia_piastro.hw5.weather.R
 import com.geekhub.mariia_piastro.hw5.weather.fragments.DetailFragment
 import com.geekhub.mariia_piastro.hw5.weather.fragments.ListFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,7 +31,8 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.popBackStack()
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fragment_container,
+                .replace(
+                    R.id.fragment_container,
                     ListFragment()
                 )
                 .replace(
@@ -35,6 +40,22 @@ class MainActivity : AppCompatActivity() {
                     DetailFragment.newInstance()
                 )
                 .commit()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_settings -> {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
         }
     }
 }
