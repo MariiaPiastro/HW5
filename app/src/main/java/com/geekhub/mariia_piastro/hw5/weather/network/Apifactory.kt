@@ -1,6 +1,9 @@
 package com.geekhub.mariia_piastro.hw5.weather.network
 
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.geekhub.mariia_piastro.hw5.weather.BuildConfig
+import com.geekhub.mariia_piastro.hw5.weather.MainApplication
 import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -20,12 +23,12 @@ object Apifactory {
             .newBuilder()
             .url(newUrl)
             .build()
-
         chain.proceed(newRequest)
     }
 
     private val client = OkHttpClient().newBuilder()
         .addInterceptor(authInterceptor)
+        .addInterceptor(ChuckerInterceptor(MainApplication.applicationContext()))
         .build()
 
     private val retrofit = Retrofit.Builder()
