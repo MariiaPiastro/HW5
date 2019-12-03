@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geekhub.mariia_piastro.hw5.weather.MainApplication
 import com.geekhub.mariia_piastro.hw5.weather.R
+import com.geekhub.mariia_piastro.hw5.weather.entities.ListResponse
 import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
 import com.geekhub.mariia_piastro.hw5.weather.network.Apifactory
 import com.geekhub.mariia_piastro.hw5.weather.recyclerView.WeatherAdapter
@@ -41,15 +42,16 @@ class ListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         view.recyclerView.layoutManager = LinearLayoutManager(activity)
         Apifactory.getCurrentWeather(location, units)
-            .enqueue(object : Callback<List<WeatherResponse>> {
+            .enqueue(object : Callback<ListResponse> {
 
                 override fun onResponse(
-                    call: Call<List<WeatherResponse>>,
-                    response: Response<List<WeatherResponse>>
+                    call: Call<ListResponse>,
+                    response: Response<ListResponse>
                 ) {
                     if (response.isSuccessful) {
                         val responseList = response.body()!!
-                        for (responseContent in responseList) {
+
+                        for (responseContent in responseList.responses) {
                             weatherResponses.add(responseContent)
                             Log.d("response", responseContent.toString())
                         }
@@ -57,8 +59,9 @@ class ListFragment : Fragment() {
                     }
                 }
 
-                override fun onFailure(call: Call<List<WeatherResponse>>, t: Throwable) {
+                override fun onFailure(call: Call<ListResponse>, t: Throwable) {
                     Log.d("err", "ERR")
+                    t.printStackTrace()
                 }
             })
     }

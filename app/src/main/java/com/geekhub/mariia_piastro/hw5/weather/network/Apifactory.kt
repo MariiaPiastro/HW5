@@ -3,7 +3,9 @@ package com.geekhub.mariia_piastro.hw5.weather.network
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.geekhub.mariia_piastro.hw5.weather.BuildConfig
 import com.geekhub.mariia_piastro.hw5.weather.MainApplication
-import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
+import com.geekhub.mariia_piastro.hw5.weather.entities.ListResponse
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -30,16 +32,20 @@ object Apifactory {
         .addInterceptor(ChuckerInterceptor(MainApplication.applicationContext()))
         .build()
 
+    private val moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
+
     private val retrofit = Retrofit.Builder()
         .client(client)
         .baseUrl(BuildConfig.BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 
     val weatherApi: WeatherApi = retrofit.create(WeatherApi::class.java)
 
-    fun getCurrentWeather(location: String, units: String): Call<List<WeatherResponse>> {
-       return weatherApi.getCurrentWeather(location, units)
+    fun getCurrentWeather(location: String, units: String): Call<ListResponse> {
+        return weatherApi.getCurrentWeather(location, units)
     }
 
 }
