@@ -5,12 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.FrameLayout
 import com.geekhub.mariia_piastro.hw5.weather.R
+import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
 import com.geekhub.mariia_piastro.hw5.weather.fragments.DetailFragment
 import com.geekhub.mariia_piastro.hw5.weather.fragments.ListFragment
+import com.geekhub.mariia_piastro.hw5.weather.recyclerView.WeatherAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), WeatherAdapter.Callback {
+
+    private var weatherResponse: WeatherResponse? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 )
                 .replace(
                     R.id.fragment_container_details,
-                    DetailFragment.newInstance()
+                    DetailFragment.newInstance(weatherResponse)
                 )
                 .commit()
         }
@@ -56,6 +61,27 @@ class MainActivity : AppCompatActivity() {
         }
         else -> {
             super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onItemClick(weatherResponse: WeatherResponse) {
+        this.weatherResponse = weatherResponse
+        val fragmentDetails: FrameLayout? = fragment_container_details
+        val detailsFragment =
+            DetailFragment.newInstance(weatherResponse)
+        if (fragmentDetails == null) { //портрет
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, detailsFragment)
+                .addToBackStack(null)
+                .commit()
+        } else { //пейзаж
+            if (supportFragmentManager.backStackEntryCount > 0)
+                supportFragmentManager.popBackStack()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container_details, detailsFragment)
+                .commit()
         }
     }
 }

@@ -7,11 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.geekhub.mariia_piastro.hw5.weather.R
+import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
 
 class DetailFragment : Fragment() {
 
     companion object {
-        fun newInstance(): DetailFragment =
+        fun newInstance(weatherResponse: WeatherResponse?): DetailFragment =
             DetailFragment()
     }
 

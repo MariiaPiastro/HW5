@@ -1,7 +1,7 @@
 package com.geekhub.mariia_piastro.hw5.weather.fragments
 
+import android.content.Context
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,15 +21,22 @@ import retrofit2.Response
 
 class ListFragment : Fragment() {
 
-    val pref = PreferenceManager.getDefaultSharedPreferences(MainApplication.applicationContext())
-    private val location = pref.getString("location", "Cherkasy")
-    private val units = pref.getString("units", "metric")
-
+    private val weatherAdapter by lazy { WeatherAdapter(weatherResponses) }
     var weatherResponses: ArrayList<WeatherResponse> = ArrayList()
+    private lateinit var mCallback: WeatherAdapter.Callback
+
+    private val pref = MainApplication.applicationContext().getSharedPreferences("pref", 0)
+    private val location = pref.getString("location", "Cherkasy")!!
+    private val units = pref.getString("units", "metric")!!
 
     companion object {
         fun newInstance(): ListFragment =
             ListFragment()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mCallback = context as WeatherAdapter.Callback
     }
 
     override fun onCreateView(
@@ -41,6 +48,10 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.recyclerView.layoutManager = LinearLayoutManager(activity)
+        getWeather(view)
+    }
+
+    private fun getWeather(view: View) {
         Apifactory.getCurrentWeather(location, units)
             .enqueue(object : Callback<ListResponse> {
 
@@ -51,11 +62,12 @@ class ListFragment : Fragment() {
                     if (response.isSuccessful) {
                         val responseList = response.body()!!
 
-                        for (responseContent in responseList.responses) {
+                        for (responseContent in responseList.list) {
                             weatherResponses.add(responseContent)
-                            Log.d("response", responseContent.toString())
                         }
-                        view.recyclerView.adapter = WeatherAdapter(weatherResponses)
+                        view.recyclerView.adapter = weatherAdapter.apply {
+                            callback = mCallback
+                        }
                     }
                 }
 
@@ -65,5 +77,4 @@ class ListFragment : Fragment() {
                 }
             })
     }
-
 }
