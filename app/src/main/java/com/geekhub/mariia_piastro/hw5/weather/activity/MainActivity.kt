@@ -13,7 +13,7 @@ import com.geekhub.mariia_piastro.hw5.weather.fragments.ListFragment
 import com.geekhub.mariia_piastro.hw5.weather.recyclerView.WeatherAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), WeatherAdapter.Callback {
+class MainActivity : AppCompatActivity(), WeatherAdapter.ItemClick {
 
     private var weatherResponse: WeatherResponse? = null
 
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), WeatherAdapter.Callback {
                     ListFragment.newInstance()
                 )
                 .commit()
-        }
+        } else weatherResponse = savedInstanceState.getSerializable("weather") as WeatherResponse
 
         if (fragment_container_details != null) {
             if (supportFragmentManager.backStackEntryCount > 0)
@@ -51,6 +51,16 @@ class MainActivity : AppCompatActivity(), WeatherAdapter.Callback {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable("weather", weatherResponse)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState!!)
+        weatherResponse = savedInstanceState.getSerializable("weather") as WeatherResponse
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

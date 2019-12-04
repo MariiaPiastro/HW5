@@ -15,31 +15,52 @@
         <TextView
             android:id="@+id/textViewDetailTemperature"
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            tools:text="25"
+            android:textSize="100sp"
+            android:textStyle="bold"
+            android:textColor="#3F51B5"/>
 
         <TextView
             android:id="@+id/textViewDetailDescription"
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            tools:text="Солнечно"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/textViewDetailHumidity"
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            tools:text="Солнечно"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textViewDetailPressure"
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            tools:text="Солнечно"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/textViewDetailWindSpeed"
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            tools:text="Солнечно"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/textViewDetailDirectionWind"
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            tools:text="Солнечно"
+            android:textSize="20sp" />
     </LinearLayout>
 </ScrollView>

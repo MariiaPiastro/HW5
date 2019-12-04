@@ -23,7 +23,7 @@ class ListFragment : Fragment() {
 
     private val weatherAdapter by lazy { WeatherAdapter(weatherResponses) }
     var weatherResponses: ArrayList<WeatherResponse> = ArrayList()
-    private lateinit var mCallback: WeatherAdapter.Callback
+    private lateinit var mItemClick: WeatherAdapter.ItemClick
 
     private val pref = MainApplication.applicationContext().getSharedPreferences("pref", 0)
     private val location = pref.getString("location", "Cherkasy")!!
@@ -36,7 +36,7 @@ class ListFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        mCallback = context as WeatherAdapter.Callback
+        mItemClick = context as WeatherAdapter.ItemClick
     }
 
     override fun onCreateView(
@@ -66,7 +66,7 @@ class ListFragment : Fragment() {
                             weatherResponses.add(responseContent)
                         }
                         view.recyclerView.adapter = weatherAdapter.apply {
-                            callback = mCallback
+                            itemClick = mItemClick
                         }
                     }
                 }

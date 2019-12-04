@@ -3,20 +3,22 @@ package com.geekhub.mariia_piastro.hw5.weather.recyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.geekhub.mariia_piastro.hw5.weather.R
 import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_item.view.*
+import kotlin.math.roundToInt
 
 class WeatherAdapter(private var weatherResponses: ArrayList<WeatherResponse>) :
     RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() {
 
-    interface Callback {
+    interface ItemClick {
         fun onItemClick(weatherResponse: WeatherResponse)
     }
 
-    var callback: Callback? = null
+    var itemClick: ItemClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
@@ -35,16 +37,16 @@ class WeatherAdapter(private var weatherResponses: ArrayList<WeatherResponse>) :
 
        init {
            view.setOnClickListener {
-               callback?.onItemClick(weatherResponses[adapterPosition])
+               itemClick?.onItemClick(weatherResponses[adapterPosition])
            }
        }
 
        fun bind(weatherResponse: WeatherResponse) {
            view.textViewDate.text = weatherResponse.date
-           view.textViewDescription.text = weatherResponse.weather[0].description
-           view.textViewTemperature.text = weatherResponse.main.temp.toString()
+           view.textViewDescription.text = weatherResponse.weather[0].main
+           view.textViewTemperature.text = String.format("%d \u00B0", weatherResponse.main.temp.roundToInt())
            val icon: String = weatherResponse.weather[0].icon
-           val url = "http://openweathermap.org/img/wn/$icon@2x.png"
+           val url = "https://openweathermap.org/img/wn/$icon@2x.png"
            Picasso.get().load(url).into(view.imageViewWeatherIcon)
        }
    }
