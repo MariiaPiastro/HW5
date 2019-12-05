@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.FrameLayout
+import androidx.preference.PreferenceManager
 import com.geekhub.mariia_piastro.hw5.weather.R
 import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
 import com.geekhub.mariia_piastro.hw5.weather.fragments.DetailFragment
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity(), WeatherAdapter.ItemClick {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false)
 
         if (savedInstanceState == null) {
             supportFragmentManager

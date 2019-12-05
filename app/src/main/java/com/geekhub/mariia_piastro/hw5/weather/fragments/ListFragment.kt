@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.geekhub.mariia_piastro.hw5.weather.MainApplication
 import com.geekhub.mariia_piastro.hw5.weather.R
 import com.geekhub.mariia_piastro.hw5.weather.entities.ListResponse
 import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
@@ -25,9 +25,9 @@ class ListFragment : Fragment() {
     var weatherResponses: ArrayList<WeatherResponse> = ArrayList()
     private lateinit var mItemClick: WeatherAdapter.ItemClick
 
-    private val pref = MainApplication.applicationContext().getSharedPreferences("pref", 0)
-    private val location = pref.getString("location", "Cherkasy")!!
-    private val units = pref.getString("units", "metric")!!
+    private val pref get() = PreferenceManager.getDefaultSharedPreferences(requireContext())
+    private lateinit var location: String
+    private lateinit var units: String
 
     companion object {
         fun newInstance(): ListFragment =
@@ -36,6 +36,8 @@ class ListFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        location = pref.getString("location", "London")!!
+        units = pref.getString("units", "metric")!!
         mItemClick = context as WeatherAdapter.ItemClick
     }
 
@@ -49,6 +51,12 @@ class ListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         view.recyclerView.layoutManager = LinearLayoutManager(activity)
         getWeather(view)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        location = pref.getString("location", "London")!!
+        units = pref.getString("units", "metric")!!
     }
 
     private fun getWeather(view: View) {

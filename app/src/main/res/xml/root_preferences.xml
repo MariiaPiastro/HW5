@@ -5,6 +5,7 @@
             app:key="location"
             app:title="Город"
             app:summary="Введите название города"
+            android:defaultValue="London"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
