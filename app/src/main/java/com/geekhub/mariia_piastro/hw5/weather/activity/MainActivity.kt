@@ -55,16 +55,16 @@ class MainActivity : AppCompatActivity(), WeatherAdapter.ItemClick {
         menuInflater.inflate(R.menu.menu, menu)
         return true
     }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putSerializable("weather", weatherResponse)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        super.onRestoreInstanceState(savedInstanceState!!)
-        weatherResponse = savedInstanceState.getSerializable("weather") as WeatherResponse
-    }
+//
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        outState.putSerializable("weather", weatherResponse)
+//    }
+//
+//    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+//        super.onRestoreInstanceState(savedInstanceState!!)
+//        weatherResponse = savedInstanceState.getSerializable("weather") as WeatherResponse
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_settings -> {

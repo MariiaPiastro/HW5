@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_item.view.*
 import kotlin.math.roundToInt
 
-class WeatherAdapter(private var weatherResponses: ArrayList<WeatherResponse>) :
+class WeatherAdapter(private var weatherResponses: List<WeatherResponse>) :
     RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() {
 
     interface ItemClick {
@@ -31,6 +31,10 @@ class WeatherAdapter(private var weatherResponses: ArrayList<WeatherResponse>) :
 
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) {
         holder.bind(weatherResponses[position])
+    }
+
+    fun setData (weatherResponses: List<WeatherResponse>){
+        this.weatherResponses = weatherResponses
     }
 
    inner class WeatherViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {

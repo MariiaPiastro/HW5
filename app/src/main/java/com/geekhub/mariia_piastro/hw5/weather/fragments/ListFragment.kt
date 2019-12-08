@@ -21,11 +21,11 @@ import retrofit2.Response
 
 class ListFragment : Fragment() {
 
-    private val weatherAdapter by lazy { WeatherAdapter(weatherResponses) }
-    var weatherResponses: ArrayList<WeatherResponse> = ArrayList()
+    private val weatherAdapter by lazy { WeatherAdapter(emptyList()) }
     private lateinit var mItemClick: WeatherAdapter.ItemClick
 
-    private val pref get() = PreferenceManager.getDefaultSharedPreferences(requireContext())
+    private val pref
+        get() = PreferenceManager.getDefaultSharedPreferences(requireContext())
     private lateinit var location: String
     private lateinit var units: String
 
@@ -49,8 +49,13 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.recyclerView.layoutManager = LinearLayoutManager(activity)
-        getWeather(view)
+        with(view.recyclerView) {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = weatherAdapter.apply {
+                itemClick = mItemClick
+            }
+        }
+        getWeather()
     }
 
     override fun onResume() {
@@ -59,7 +64,7 @@ class ListFragment : Fragment() {
         units = pref.getString("units", "metric")!!
     }
 
-    private fun getWeather(view: View) {
+    private fun getWeather() {
         Apifactory.getCurrentWeather(location, units)
             .enqueue(object : Callback<ListResponse> {
 
@@ -68,14 +73,8 @@ class ListFragment : Fragment() {
                     response: Response<ListResponse>
                 ) {
                     if (response.isSuccessful) {
-                        val responseList = response.body()!!
-
-                        for (responseContent in responseList.list) {
-                            weatherResponses.add(responseContent)
-                        }
-                        view.recyclerView.adapter = weatherAdapter.apply {
-                            itemClick = mItemClick
-                        }
+                        weatherAdapter.setData(response.body()?.list ?: emptyList())
+                        weatherAdapter.notifyDataSetChanged()
                     }
                 }
 
