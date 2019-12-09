@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), WeatherAdapter.ItemClick {
                     ListFragment.newInstance()
                 )
                 .commit()
-        } else weatherResponse = savedInstanceState.getSerializable("weather") as WeatherResponse
+        } else weatherResponse = savedInstanceState.getSerializable("weather") as WeatherResponse?
 
         if (fragment_container_details != null) {
             if (supportFragmentManager.backStackEntryCount > 0)

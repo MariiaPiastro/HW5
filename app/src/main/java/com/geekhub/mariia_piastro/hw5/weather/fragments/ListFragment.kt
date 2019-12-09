@@ -65,6 +65,7 @@ class ListFragment : Fragment() {
         super.onResume()
         location = pref.getString("location", "Cherkasy") ?: "Cherkasy"
         units = pref.getString("units", "metric") ?: "metric"
+        getWeather()
     }
 
     private fun getWeather() {

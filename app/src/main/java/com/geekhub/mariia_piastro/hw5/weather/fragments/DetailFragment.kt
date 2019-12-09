@@ -32,14 +32,14 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val weatherDetail = arguments!!.getSerializable("weather") as WeatherResponse
+        val weatherDetail = arguments?.getSerializable("weather") as WeatherResponse?
         with(view) {
-            textViewDetailTemperature.text = String.format("%d\u00B0", weatherDetail.main.temp.roundToInt())
-            textViewDetailDescription.text = weatherDetail.weather[0].description
-            textViewDetailHumidity.text = String.format("Влажность: %.2f", weatherDetail.main.humidity)
-            textViewDetailPressure.text = String.format("Атмосферное давление: %.2f",weatherDetail.main.pressure)
-            textViewDetailWindSpeed.text = String.format("Скорость ветра: %.2f", weatherDetail.wind.speed)
-            textViewDetailDirectionWind.text = String.format("Направление ветра: %.2f", weatherDetail.wind.deg)
+            textViewDetailTemperature.text = String.format("%d\u00B0", weatherDetail?.main?.temp?.roundToInt())
+            textViewDetailDescription.text = weatherDetail?.weather?.get(0)?.description
+            textViewDetailHumidity.text = String.format("Влажность: %.2f", weatherDetail?.main?.humidity)
+            textViewDetailPressure.text = String.format("Атмосферное давление: %.2f",weatherDetail?.main?.pressure)
+            textViewDetailWindSpeed.text = String.format("Скорость ветра: %.2f", weatherDetail?.wind?.speed)
+            textViewDetailDirectionWind.text = String.format("Направление ветра: %.2f", weatherDetail?.wind?.deg)
         }
     }
 }
