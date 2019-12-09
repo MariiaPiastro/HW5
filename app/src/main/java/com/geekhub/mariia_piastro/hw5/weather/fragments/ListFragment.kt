@@ -11,6 +11,7 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geekhub.mariia_piastro.hw5.weather.MainApplication
 import com.geekhub.mariia_piastro.hw5.weather.R
+import com.geekhub.mariia_piastro.hw5.weather.database.WeatherDbHelper
 import com.geekhub.mariia_piastro.hw5.weather.entities.ListResponse
 import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
 import com.geekhub.mariia_piastro.hw5.weather.network.Apifactory
@@ -31,6 +32,9 @@ class ListFragment : Fragment() {
         get() = PreferenceManager.getDefaultSharedPreferences(MainApplication.applicationContext())
     private lateinit var location: String
     private lateinit var units: String
+
+    private val dbHelper = WeatherDbHelper(MainApplication.applicationContext())
+    val db = dbHelper.writableDatabase
 
     companion object {
         fun newInstance(): ListFragment =

@@ -8,7 +8,7 @@ object WeatherContract {
         const val TABLE_NAME = "weather"
         const val COLUMN_TEMP = "temp"
         const val COLUMN_HUMIDITY = "humidity"
-        const val COLUMN_PESSURE = "pressure"
+        const val COLUMN_PRESSURE = "pressure"
         const val COLUMN_TEMP_MIN = "tempMin"
         const val COLUMN_TEMP_MAX = "tempMax"
         const val COLUMN_MAIN = "main"
@@ -23,7 +23,7 @@ object WeatherContract {
                 "${BaseColumns._ID} INTEGER PRIMARY KEY," +
                 "${WeatherEntry.COLUMN_TEMP} REAL," +
                 "${WeatherEntry.COLUMN_HUMIDITY} REAL," +
-                "${WeatherEntry.COLUMN_PESSURE} REAL," +
+                "${WeatherEntry.COLUMN_PRESSURE} REAL," +
                 "${WeatherEntry.COLUMN_TEMP_MIN} REAL," +
                 "${WeatherEntry.COLUMN_TEMP_MAX} REAL," +
                 "${WeatherEntry.COLUMN_MAIN} TEXT," +
