@@ -9,12 +9,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.geekhub.mariia_piastro.hw5.weather.MainApplication
 import com.geekhub.mariia_piastro.hw5.weather.R
 import com.geekhub.mariia_piastro.hw5.weather.entities.ListResponse
 import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
 import com.geekhub.mariia_piastro.hw5.weather.network.Apifactory
 import com.geekhub.mariia_piastro.hw5.weather.recyclerView.WeatherAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
+import kotlinx.android.synthetic.main.list_item.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,7 +28,7 @@ class ListFragment : Fragment() {
     private lateinit var mItemClick: WeatherAdapter.ItemClick
 
     private val pref
-        get() = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        get() = PreferenceManager.getDefaultSharedPreferences(MainApplication.applicationContext())
     private lateinit var location: String
     private lateinit var units: String
 
@@ -36,8 +39,8 @@ class ListFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        location = pref.getString("location", "London")!!
-        units = pref.getString("units", "metric")!!
+        location = pref.getString("location", "Cherkasy") ?: "Cherkasy"
+        units = pref.getString("units", "metric") ?: "metric"
         mItemClick = context as WeatherAdapter.ItemClick
     }
 
@@ -60,8 +63,8 @@ class ListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        location = pref.getString("location", "London")!!
-        units = pref.getString("units", "metric")!!
+        location = pref.getString("location", "Cherkasy") ?: "Cherkasy"
+        units = pref.getString("units", "metric") ?: "metric"
     }
 
     private fun getWeather() {

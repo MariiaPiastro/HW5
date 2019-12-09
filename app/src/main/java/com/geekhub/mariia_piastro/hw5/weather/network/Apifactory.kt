@@ -42,7 +42,7 @@ object Apifactory {
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 
-    val weatherApi: WeatherApi = retrofit.create(WeatherApi::class.java)
+    private val weatherApi: WeatherApi = retrofit.create(WeatherApi::class.java)
 
     fun getCurrentWeather(location: String, units: String): Call<ListResponse> {
         return weatherApi.getCurrentWeather(location, units)

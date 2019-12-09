@@ -5,11 +5,10 @@
             app:key="location"
             app:title="Город"
             app:summary="Введите название города"
-            android:defaultValue="London"
+            android:defaultValue="Cherkasy"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="reply"
             app:entries="@array/measure_units"
             app:entryValues="@array/measure_units_value"
             app:key="units"

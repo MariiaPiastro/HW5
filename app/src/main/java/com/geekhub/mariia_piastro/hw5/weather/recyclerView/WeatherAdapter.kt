@@ -4,7 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
+import com.geekhub.mariia_piastro.hw5.weather.MainApplication
 import com.geekhub.mariia_piastro.hw5.weather.R
 import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
 import com.squareup.picasso.Picasso
@@ -13,6 +15,9 @@ import kotlin.math.roundToInt
 
 class WeatherAdapter(private var weatherResponses: List<WeatherResponse>) :
     RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() {
+
+    private val pref
+        get() = PreferenceManager.getDefaultSharedPreferences(MainApplication.applicationContext())
 
     interface ItemClick {
         fun onItemClick(weatherResponse: WeatherResponse)
@@ -46,6 +51,7 @@ class WeatherAdapter(private var weatherResponses: List<WeatherResponse>) :
        }
 
        fun bind(weatherResponse: WeatherResponse) {
+           view.textViewCity.text = pref.getString("location", "")
            view.textViewDate.text = weatherResponse.date
            view.textViewDescription.text = weatherResponse.weather[0].main
            view.textViewTemperature.text = String.format("%d \u00B0", weatherResponse.main.temp.roundToInt())
