@@ -1,5 +1,6 @@
 package com.geekhub.mariia_piastro.hw5.weather.fragments
 
+import android.content.ContentValues
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -11,14 +12,12 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geekhub.mariia_piastro.hw5.weather.MainApplication
 import com.geekhub.mariia_piastro.hw5.weather.R
+import com.geekhub.mariia_piastro.hw5.weather.database.WeatherContract
 import com.geekhub.mariia_piastro.hw5.weather.database.WeatherDbHelper
-import com.geekhub.mariia_piastro.hw5.weather.entities.ListResponse
-import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
+import com.geekhub.mariia_piastro.hw5.weather.entities.*
 import com.geekhub.mariia_piastro.hw5.weather.network.Apifactory
 import com.geekhub.mariia_piastro.hw5.weather.recyclerView.WeatherAdapter
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
-import kotlinx.android.synthetic.main.list_item.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -81,7 +80,10 @@ class ListFragment : Fragment() {
                     response: Response<ListResponse>
                 ) {
                     if (response.isSuccessful) {
-                        weatherAdapter.setData(response.body()?.list ?: emptyList())
+                        for (content in response.body()?.list ?: emptyList()) {
+                            insertWeather(content)
+                        }
+                        weatherAdapter.setData(getWeatherFromDb())
                         weatherAdapter.notifyDataSetChanged()
                     }
                 }
@@ -91,5 +93,103 @@ class ListFragment : Fragment() {
                     t.printStackTrace()
                 }
             })
+    }
+
+    private fun insertWeather(weatherResponse: WeatherResponse) {
+
+        val contentValues = ContentValues().apply {
+            put(WeatherContract.WeatherEntry.COLUMN_TEMP, weatherResponse.main.temp)
+            put(
+                WeatherContract.WeatherEntry.COLUMN_HUMIDITY,
+                weatherResponse.main.humidity
+            )
+            put(
+                WeatherContract.WeatherEntry.COLUMN_PRESSURE,
+                weatherResponse.main.pressure
+            )
+            put(
+                WeatherContract.WeatherEntry.COLUMN_TEMP_MIN,
+                weatherResponse.main.tempMin
+            )
+            put(
+                WeatherContract.WeatherEntry.COLUMN_TEMP_MAX,
+                weatherResponse.main.tempMax
+            )
+            put(
+                WeatherContract.WeatherEntry.COLUMN_MAIN,
+                weatherResponse.weather[0].main
+            )
+            put(
+                WeatherContract.WeatherEntry.COLUMN_DESCRIPTION,
+                weatherResponse.weather[0].description
+            )
+            put(
+                WeatherContract.WeatherEntry.COLUMN_ICON,
+                weatherResponse.weather[0].icon
+            )
+            put(
+                WeatherContract.WeatherEntry.COLUMN_WIND_SPEED,
+                weatherResponse.wind.speed
+            )
+            put(
+                WeatherContract.WeatherEntry.COLUMN_WIND_DEGREE,
+                weatherResponse.wind.deg
+            )
+            put(WeatherContract.WeatherEntry.COLUMN_DATE, weatherResponse.date)
+        }
+        db?.insert(WeatherContract.WeatherEntry.TABLE_NAME, null, contentValues)
+    }
+
+    private fun getWeatherFromDb() : MutableList<WeatherResponse> {
+        val weathers = mutableListOf<WeatherResponse>()
+        val cursor = db.query(
+            WeatherContract.WeatherEntry.TABLE_NAME,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        )
+        with(cursor) {
+            while (moveToNext()) {
+                val temp =
+                    getDouble(getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_TEMP))
+                val humidity =
+                    getDouble(getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_HUMIDITY))
+                val pressure =
+                    getDouble(getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_PRESSURE))
+                val tempMin =
+                    getDouble(getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_TEMP_MIN))
+                val tempMax =
+                    getDouble(getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_TEMP_MAX))
+                val main =
+                    getString(getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_MAIN))
+                val description =
+                    getString(getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_DESCRIPTION))
+                val icon =
+                    getString(getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_ICON))
+                val speed =
+                    getDouble(getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_WIND_SPEED))
+                val degree =
+                    getDouble(getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_WIND_DEGREE))
+                val date =
+                    getString(getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_DATE))
+                val weatherResponse = WeatherResponse(
+                    main = MainWeatherInfo(
+                        temp,
+                        humidity,
+                        pressure,
+                        tempMin,
+                        tempMax
+                    ),
+                    weather = listOf(Weather(main, description, icon)),
+                    wind = Wind(speed, degree), date = date
+                )
+                weathers.add(weatherResponse)
+            }
+        }
+        cursor.close()
+        return weathers
     }
 }

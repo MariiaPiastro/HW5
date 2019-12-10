@@ -16,11 +16,12 @@ object WeatherContract {
         const val COLUMN_ICON = "icon"
         const val COLUMN_WIND_SPEED = "wind_speed"
         const val COLUMN_WIND_DEGREE = "wind_degree"
+        const val COLUMN_DATE = "date"
     }
 
     const val SQL_CREATE_ENTRIES =
         "CREATE TABLE IF NOT EXISTS ${WeatherEntry.TABLE_NAME} (" +
-                "${BaseColumns._ID} INTEGER PRIMARY KEY," +
+                "${BaseColumns._ID} INTEGER PRIMARY KEY ," +
                 "${WeatherEntry.COLUMN_TEMP} REAL," +
                 "${WeatherEntry.COLUMN_HUMIDITY} REAL," +
                 "${WeatherEntry.COLUMN_PRESSURE} REAL," +
@@ -30,8 +31,8 @@ object WeatherContract {
                 "${WeatherEntry.COLUMN_DESCRIPTION} TEXT," +
                 "${WeatherEntry.COLUMN_ICON} TEXT," +
                 "${WeatherEntry.COLUMN_WIND_SPEED} REAL," +
-                "${WeatherEntry.COLUMN_WIND_DEGREE} REAL)"
+                "${WeatherEntry.COLUMN_WIND_DEGREE} REAL," +
+                "${WeatherEntry.COLUMN_DATE} TEXT)"
 
-    const val SQL_DELETE_ENTRIES
-            = "DROP TABLE IF EXISTS ${WeatherEntry.TABLE_NAME}"
+    const val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS ${WeatherEntry.TABLE_NAME}"
 }
