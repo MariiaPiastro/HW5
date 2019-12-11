@@ -91,6 +91,8 @@ class ListFragment : Fragment() {
                 override fun onFailure(call: Call<ListResponse>, t: Throwable) {
                     Log.d("err", "ERR")
                     t.printStackTrace()
+                    weatherAdapter.setData(getWeatherFromDb())
+                    weatherAdapter.notifyDataSetChanged()
                 }
             })
     }
