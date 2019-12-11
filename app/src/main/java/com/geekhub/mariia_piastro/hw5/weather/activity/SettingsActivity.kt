@@ -1,5 +1,6 @@
 package com.geekhub.mariia_piastro.hw5.weather.activity
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
@@ -19,9 +20,13 @@ class SettingsActivity : AppCompatActivity() {
             .commit()
     }
 
-    class SettingsFragment : PreferenceFragmentCompat() {
+    class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
+        }
+
+        override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
+
         }
     }
 }

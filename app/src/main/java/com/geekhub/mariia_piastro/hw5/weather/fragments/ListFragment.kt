@@ -80,6 +80,7 @@ class ListFragment : Fragment() {
                     response: Response<ListResponse>
                 ) {
                     if (response.isSuccessful) {
+                        db.delete(WeatherContract.WeatherEntry.TABLE_NAME, null, null)
                         for (content in response.body()?.list ?: emptyList()) {
                             insertWeather(content)
                         }

@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), WeatherAdapter.ItemClick {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState!!)
-        weatherResponse = savedInstanceState.getSerializable("weather") as WeatherResponse
+        weatherResponse = savedInstanceState.getSerializable("weather") as WeatherResponse?
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
