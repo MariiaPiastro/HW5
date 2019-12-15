@@ -2,6 +2,7 @@ package com.geekhub.mariia_piastro.hw5.weather.fragments
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -29,8 +30,6 @@ class ListFragment : Fragment() {
 
     private val pref
         get() = PreferenceManager.getDefaultSharedPreferences(MainApplication.applicationContext())
-    private lateinit var location: String
-    private lateinit var units: String
 
     private val dbHelper = WeatherDbHelper(MainApplication.applicationContext())
     val db = dbHelper.writableDatabase
@@ -42,8 +41,6 @@ class ListFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        location = pref.getString("location", "Cherkasy") ?: "Cherkasy"
-        units = pref.getString("units", "metric") ?: "metric"
         mItemClick = context as WeatherAdapter.ItemClick
     }
 
@@ -61,17 +58,22 @@ class ListFragment : Fragment() {
                 itemClick = mItemClick
             }
         }
-        getWeather()
+        pref.registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
+            if  (key == "location") {
+                db.delete(WeatherContract.WeatherEntry.TABLE_NAME, null, null)
+                getWeather()
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        location = pref.getString("location", "Cherkasy") ?: "Cherkasy"
-        units = pref.getString("units", "metric") ?: "metric"
         getWeather()
     }
 
     private fun getWeather() {
+        val location = pref.getString("location", "Cherkasy") ?: "Cherkasy"
+        val units = pref.getString("units", "metric") ?: "metric"
         Apifactory.getCurrentWeather(location, units)
             .enqueue(object : Callback<ListResponse> {
 
@@ -143,7 +145,7 @@ class ListFragment : Fragment() {
         db?.insert(WeatherContract.WeatherEntry.TABLE_NAME, null, contentValues)
     }
 
-    private fun getWeatherFromDb() : MutableList<WeatherResponse> {
+    private fun getWeatherFromDb(): MutableList<WeatherResponse> {
         val weathers = mutableListOf<WeatherResponse>()
         val cursor = db.query(
             WeatherContract.WeatherEntry.TABLE_NAME,
