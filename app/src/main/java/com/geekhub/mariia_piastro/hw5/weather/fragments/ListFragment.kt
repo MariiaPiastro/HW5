@@ -1,5 +1,6 @@
 package com.geekhub.mariia_piastro.hw5.weather.fragments
 
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.content.SharedPreferences
@@ -13,6 +14,7 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geekhub.mariia_piastro.hw5.weather.MainApplication
 import com.geekhub.mariia_piastro.hw5.weather.R
+import com.geekhub.mariia_piastro.hw5.weather.activity.MainActivity
 import com.geekhub.mariia_piastro.hw5.weather.database.WeatherContract
 import com.geekhub.mariia_piastro.hw5.weather.database.WeatherDbHelper
 import com.geekhub.mariia_piastro.hw5.weather.entities.*
@@ -34,6 +36,12 @@ class ListFragment : Fragment() {
     private val dbHelper = WeatherDbHelper(MainApplication.applicationContext())
     val db = dbHelper.writableDatabase
 
+    private lateinit var activity: Activity
+
+    interface FirstItem {
+        fun getFirstItem(weatherResponse: WeatherResponse)
+    }
+
     companion object {
         fun newInstance(): ListFragment =
             ListFragment()
@@ -42,6 +50,7 @@ class ListFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mItemClick = context as WeatherAdapter.ItemClick
+        activity = context as Activity
     }
 
     override fun onCreateView(
@@ -61,7 +70,6 @@ class ListFragment : Fragment() {
         pref.registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
             if  (key == "location") {
                 db.delete(WeatherContract.WeatherEntry.TABLE_NAME, null, null)
-                getWeather()
             }
         }
     }
@@ -86,6 +94,7 @@ class ListFragment : Fragment() {
                         for (content in response.body()?.list ?: emptyList()) {
                             insertWeather(content)
                         }
+                        (activity as FirstItem).getFirstItem(getWeatherFromDb()[0])
                         weatherAdapter.setData(getWeatherFromDb())
                         weatherAdapter.notifyDataSetChanged()
                     }

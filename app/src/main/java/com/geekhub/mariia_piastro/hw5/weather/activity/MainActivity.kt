@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.FrameLayout
 import androidx.preference.PreferenceManager
-import com.geekhub.mariia_piastro.hw5.weather.MainApplication
 import com.geekhub.mariia_piastro.hw5.weather.R
 import com.geekhub.mariia_piastro.hw5.weather.entities.WeatherResponse
 import com.geekhub.mariia_piastro.hw5.weather.fragments.DetailFragment
@@ -15,7 +14,7 @@ import com.geekhub.mariia_piastro.hw5.weather.fragments.ListFragment
 import com.geekhub.mariia_piastro.hw5.weather.recyclerView.WeatherAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), WeatherAdapter.ItemClick {
+class MainActivity : AppCompatActivity(), WeatherAdapter.ItemClick, ListFragment.FirstItem {
 
     private var weatherResponse: WeatherResponse? = null
 
@@ -97,5 +96,9 @@ class MainActivity : AppCompatActivity(), WeatherAdapter.ItemClick {
                 .replace(R.id.fragment_container_details, detailsFragment)
                 .commit()
         }
+    }
+
+    override fun getFirstItem(weatherResponse: WeatherResponse) {
+        this.weatherResponse = weatherResponse
     }
 }
